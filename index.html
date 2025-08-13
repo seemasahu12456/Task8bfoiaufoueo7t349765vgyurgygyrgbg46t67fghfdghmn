@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Token Redemption Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Particle background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particles span {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1),
+                0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
+            animation: animateParticles 15s linear infinite;
+            bottom: -100px;
+        }
+
+        .particles span:nth-child(1) {
+            left: 25%;
+            animation-delay: 0s;
+            animation-duration: 10s;
+        }
+
+        .particles span:nth-child(2) {
+            left: 10%;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .particles span:nth-child(3) {
+            left: 70%;
+            animation-delay: 4s;
+            animation-duration: 15s;
+        }
+
+        .particles span:nth-child(4) {
+            left: 40%;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .particles span:nth-child(5) {
+            left: 65%;
+            animation-delay: 0s;
+            animation-duration: 14s;
+        }
+
+        .particles span:nth-child(6) {
+            left: 75%;
+            animation-delay: 3s;
+            animation-duration: 12s;
+        }
+
+        .particles span:nth-child(7) {
+            left: 35%;
+            animation-delay: 7s;
+            animation-duration: 16s;
+        }
+
+        .particles span:nth-child(8) {
+            left: 50%;
+            animation-delay: 15s;
+            animation-duration: 18s;
+        }
+
+        .particles span:nth-child(9) {
+            left: 20%;
+            animation-delay: 2s;
+            animation-duration: 15s;
+        }
+
+        .particles span:nth-child(10) {
+            left: 85%;
+            animation-delay: 0s;
+            animation-duration: 11s;
+        }
+
+        @keyframes animateParticles {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 450px;
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            color: #fff;
+            font-size: 2.3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 126, 95, 0.3);
+        }
+
+        .form-header p {
+            color: #e0e0e0;
+            font-size: 1.1rem;
+        }
+
+        /* Video styling */
+        .video-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transform: translateY(0);
+            transition: all 0.4s ease;
+            max-width: 100%;
+            margin: 0 auto 30px;
+            border: 2px solid #6a67ce;
+            background: rgba(106, 103, 206, 0.1);
+            padding: 10px;
+            height: 250px;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Form styling */
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        /* Button styling from original design */
+        .cd-btn {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            white-space: nowrap;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375em;
+            font-size: 1em;
+            text-decoration: none;
+            line-height: 1.2;
+            cursor: pointer;
+            transition: 0.2s;
+            will-change: transform;
+            width: 100%;
+            height: 50px;
+            border: none;
+            font-weight: 500;
+        }
+
+        .cd-btn:focus-visible {
+            outline: none;
+        }
+
+        .cd-btn:active {
+            transform: translateY(2px);
+        }
+
+        .cd-btn--subtle {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.1),
+                0 0 0 1px hsla(230, 13%, 9%, 0.02),
+                0 0.3px 0.4px hsla(230, 13%, 9%, 0.025),
+                0 1px 3px -1px hsla(230, 13%, 9%, 0.2),
+                0 3.5px 6px hsla(230, 13%, 9%, 0.12);
+            transition: all 0.3s ease;
+            padding-left: 20px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .cd-btn--subtle::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .cd-btn--subtle:focus {
+            background: rgba(106, 103, 206, 0.2);
+            box-shadow: 0 0 0 2px #6a67ce, inset 0 1px 0 hsla(0, 0%, 100%, 0.1),
+                0 1px 3px -1px hsla(230, 13%, 9%, 0.2),
+                0 3.5px 6px hsla(230, 13%, 9%, 0.12);
+        }
+
+        .cd-btn--primary {
+            background: hsl(250, 84%, 54%);
+            box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.15),
+                0 1px 3px hsla(250, 84%, 38%, 0.25),
+                0 2px 6px hsla(250, 84%, 38%, 0.1),
+                0 6px 10px -2px hsla(250, 84%, 38%, 0.25);
+            color: hsl(0, 0%, 100%);
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .cd-btn--primary:hover {
+            background: hsl(250, 84%, 60%);
+            box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.15),
+                0 1px 2px hsla(250, 84%, 38%, 0.25),
+                0 1px 4px hsla(250, 84%, 38%, 0.1),
+                0 3px 6px -2px hsla(250, 84%, 38%, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .cd-btn--primary:active {
+            transform: translateY(1px);
+        }
+
+        /* Result display */
+        .result-container {
+            margin-top: 20px;
+            min-height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .data {
+            color: #4ade80;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(8, 235, 235, 0.5),
+                0 0 20px rgba(8, 235, 235, 0.3), 0 0 30px rgba(8, 235, 235, 0.2);
+            font-size: 18px;
+            padding: 15px;
+            background: rgba(74, 222, 128, 0.1);
+            border-radius: 10px;
+            width: 100%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(74, 222, 128, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+            }
+        }
+
+        /* Get Token link */
+        .token-link {
+            text-align: center;
+            margin-top: 25px;
+            position: relative;
+        }
+
+        .call {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            border-radius: 30px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(254, 180, 123, 0.4);
+            z-index: 1;
+            animation: glowText 3s ease-in-out infinite alternate;
+        }
+
+        .call:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(254, 180, 123, 0.6);
+        }
+
+        .call i {
+            margin-left: 8px;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes glowText {
+            from {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff7e5f,
+                    0 0 20px #ff7e5f;
+            }
+
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff7e5f,
+                    0 0 40px #ff7e5f;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .form-header h1 {
+                font-size: 2rem;
+            }
+
+            .video-container {
+                height: 220px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                padding: 25px 15px;
+            }
+
+            .form-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .call {
+                padding: 14px 28px;
+                font-size: 16px;
+            }
+
+            .video-container {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Animated Background Particles -->
+    <div class="particles">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="form-header">
+            <h1>Token Redemption</h1>
+            <p>Enter your details to redeem your token</p>
+        </div>
+
+        <!-- Video Container -->
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/QgWtyIN4OvY?si=Hmi_qnuOSskBRqEp" title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+        <!-- Form -->
+        <form method="POST" id="form">
+            <div class="form-group">
+                <input type="text" name="Name" placeholder="User Name" class="cd-btn cd-btn--subtle" required />
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="Email" placeholder="Profile Link" class="cd-btn cd-btn--subtle" required />
+            </div>
+
+            <div class="form-group">
+                <input type="number" name="Mobile" placeholder="Redeem Token" class="cd-btn cd-btn--subtle" required />
+            </div>
+
+            <div class="form-group">
+                <button name="btn" class="cd-btn cd-btn--primary">Submit</button>
+            </div>
+
+            <div class="result-container">
+                <div id="res" class="data"></div>
+            </div>
+        </form>
+
+        <div class="token-link">
+            <a href="https://play.google.com/store/apps/details?id=com.game.ax.power&pcampaignid=web_share"
+                class="call">
+                <i class="fas fa-gift"></i> Get Your Token
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Form submission handling
+        const url =
+            "https://script.google.com/macros/s/AKfycbwzxaIKvqTBAZ2rGabmSNCwbQsKU1Z6xwlWWosRfTwMugveqTvME0qBG-jXOIHXCzah/exec";
+        const form = document.querySelector("#form");
+        const submitBtn = form.querySelector('button[name="btn"]');
+        const resultDisplay = document.getElementById("res");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            // Show loading state
+            submitBtn.innerHTML =
+                '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            submitBtn.disabled = true;
+
+            // Prepare form data
+            let d = new FormData(form);
+
+            // Send request
+            fetch(url, {
+                method: "POST",
+                body: d,
+            })
+                .then((res) => res.text())
+                .then((finalRes) => {
+                    // Reset button
+                    submitBtn.innerHTML = "Submit Token";
+                    submitBtn.disabled = false;
+
+                    // Show result
+                    resultDisplay.textContent = finalRes;
+
+                    // Reset form
+                    form.reset();
+
+                    // Clear message after 5 seconds
+                    setTimeout(() => {
+                        resultDisplay.textContent = "";
+                    }, 5000);
+                })
+                .catch((error) => {
+                    // Reset button
+                    submitBtn.innerHTML = "Submit";
+                    submitBtn.disabled = false;
+
+                    // Show error
+                    resultDisplay.textContent = "Error: " + error.message;
+
+                    // Clear message after 5 seconds
+                    setTimeout(() => {
+                        resultDisplay.textContent = "";
+                    }, 5000);
+                });
+        });
+
+        // Add focus effects to inputs
+        const inputs = document.querySelectorAll(".cd-btn--subtle");
+        inputs.forEach((input) => {
+            input.addEventListener("focus", () => {
+                input.style.background = "rgba(106, 103, 206, 0.2)";
+                input.style.boxShadow =
+                    "0 0 0 2px #6a67ce, inset 0 1px 0 hsla(0, 0%, 100%, 0.1)";
+            });
+
+            input.addEventListener("blur", () => {
+                input.style.background = "rgba(255, 255, 255, 0.1)";
+                input.style.boxShadow =
+                    "inset 0 1px 0 hsla(0, 0%, 100%, 0.1), 0 0 0 1px hsla(230, 13%, 9%, 0.02), 0 0.3px 0.4px hsla(230, 13%, 9%, 0.025), 0 1px 3px -1px hsla(230, 13%, 9%, 0.2), 0 3.5px 6px hsla(230, 13%, 9%, 0.12)";
+            });
+        });
+    </script>
+</body>
+
+</html>
